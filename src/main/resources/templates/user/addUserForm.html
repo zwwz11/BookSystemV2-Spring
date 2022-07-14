@@ -20,60 +20,56 @@
     <!-- header fragment 불러오기 -->
     <div th:replace="~{template/fragment/header :: copy}"></div>
       
-      <form method="post" class="form-horizontal">
+      <form method="post" th:action="@{/user/register}" th:object="${user}" class="form-horizontal">
         <div class="container">
           <div class="page-header">
-            <h1>회원 등록</h1>
+            <h1 th:text="#{page.user.register}">회원 등록</h1>
           </div>
 
           <div class="row">
             <div class="col-xs-12">
 
               <div class="form-group">
-                <label for="username" class="col-sm-2 control-label">이름</label>
+                <label for="username" class="col-sm-2 control-label" th:text="#{label.user.name}">이름</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="username" placeholder="이름">
+                  <input type="text" class="form-control" id="username" th:field="*{name}" placeholder="이름">
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="userage" class="col-sm-2 control-label">나이</label>
+                <label for="userage" class="col-sm-2 control-label" th:text="#{label.user.age}">나이</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="userage" placeholder="나이">
+                  <input type="text" class="form-control" id="userage" th:field="*{age}" placeholder="나이">
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="userphone" class="col-sm-2 control-label">휴대폰</label>
+                <label for="userphone" class="col-sm-2 control-label" th:text="#{label.user.phone}">휴대폰</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="userphone" placeholder="휴대폰">
+                  <input type="text" class="form-control" id="userphone" th:field="*{phone}" placeholder="휴대폰">
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="useremail" class="col-sm-2 control-label">이메일</label>
+                <label for="useremail" class="col-sm-2 control-label" th:text="#{label.user.email}">이메일</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="useremail" placeholder="이메일">
+                  <input type="text" class="form-control" id="useremail" th:field="*{email}" placeholder="이메일">
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sex" checked> 남자
-                    </label>
-                    <label>
-                      <input type="radio" name="sex"> 여자
-                    </label>
+                  <div th:each="sex : ${userSexes}" class="radio-inline">
+                    <input type="radio" th:field="*{sex}" th:value="${sex.name()}">
+                    <label th:for="${#ids.prev('sex')}" th:text="${sex.value}">성별</label>
                   </div>
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <input class="btn btn-primary" type="submit" value="등록">
-                  <input class="btn btn-default" type="submit" value="취소">
+                  <input class="btn btn-primary" type="submit" value="등록" th:value="#{button.save}">
+                  <input class="btn btn-default" type="button" value="취소" th:onclick="|location.href='@{/index.html}'|" th:value="#{button.cancel}">
                 </div>
               </div>
 
