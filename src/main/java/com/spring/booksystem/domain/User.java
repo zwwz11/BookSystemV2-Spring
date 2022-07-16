@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 @RequiredArgsConstructor
 public class User {
 
-    @NotNull
     Long id;
 
     @NotBlank(message = "이름을 입력해주세요.")

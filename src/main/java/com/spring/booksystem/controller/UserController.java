@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,11 +41,21 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             log.info("에러 있음");
-            return "user/addUserForm";
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info("field = {}, message = {}",fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return "/user/addUserForm";
         }
 
         log.info("유저 저장됨");
+        log.info("user = {}", user.toString());
         User savedUser = userService.join(user);
-        return "redirect:localhost:8080/index.html";
+        return "redirect:/user/users";
+    }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        model.addAttribute("users", userService.findAllUser());
+        return "/user/usersForm";
     }
 }
