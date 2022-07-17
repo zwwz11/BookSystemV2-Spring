@@ -2,6 +2,7 @@ package com.spring.booksystem.controller;
 
 import com.spring.booksystem.domain.User;
 import com.spring.booksystem.domain.UserSex;
+import com.spring.booksystem.domain.UserUpdateDTO;
 import com.spring.booksystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -54,5 +52,30 @@ public class UserController {
     public String users(Model model) {
         model.addAttribute("users", userService.findAllUser());
         return "/user/usersForm";
+    }
+
+    @GetMapping("/{userId}/edit")
+    public String editUserForm(@PathVariable Long userId, Model model){
+        model.addAttribute("user", userService.findUser(userId));
+        return "/user/editUserForm";
+    }
+
+    @PostMapping("/{userId}/edit")
+    public String editUser(@PathVariable Long userId, @Validated @ModelAttribute("user") UserUpdateDTO userUpdateDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.info("edit 에러있음");
+            return "/user/editUserForm";
+        }
+
+        log.info("edit 에러없음");
+        User updatedUser = new User();
+        updatedUser.setId(userUpdateDTO.getId());
+        updatedUser.setName(userUpdateDTO.getName());
+        updatedUser.setAge(userUpdateDTO.getAge());
+        updatedUser.setPhone(userUpdateDTO.getPhone());
+        updatedUser.setEmail(userUpdateDTO.getEmail());
+        userService.editUser(userId, updatedUser);
+
+        return "redirect:/user/users";
     }
 }
