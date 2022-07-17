@@ -40,15 +40,12 @@ public class UserController {
     public String addUser(@Validated @ModelAttribute User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.info("에러 있음");
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.info("field = {}, message = {}",fieldError.getField(), fieldError.getDefaultMessage());
             }
             return "/user/addUserForm";
         }
 
-        log.info("유저 저장됨");
-        log.info("user = {}", user.toString());
         User savedUser = userService.join(user);
         return "redirect:/user/users";
     }
