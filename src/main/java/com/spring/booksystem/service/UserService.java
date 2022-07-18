@@ -1,6 +1,6 @@
 package com.spring.booksystem.service;
 
-import com.spring.booksystem.domain.User;
+import com.spring.booksystem.domain.user.User;
 
 import java.util.List;
 

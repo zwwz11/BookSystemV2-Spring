@@ -77,9 +77,9 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <div th:each="sex : ${userSexes}" class="radio-inline">
-                            <input type="radio" th:field="*{sex}" th:value="${sex.name()}">
-                            <label th:for="${#ids.prev('sex')}" th:text="${sex.value}">성별</label>
+                        <div th:each="userSex : ${userSexes}" class="radio-inline">
+                            <input type="radio" th:field="*{sex}" th:value="${userSex.name()}">
+                            <label th:for="${#ids.prev('sex')}" th:text="${userSex.value}">성별</label>
                         </div>
                         <div class="field-error" th:errors="*{sex}"></div>
                     </div>
@@ -88,6 +88,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input class="btn btn-primary" type="submit" value="등록" th:value="#{button.save}">
+                        <input class="btn btn-warning" type="button" value="삭제" th:onclick="|location.href='@{/user/{userId}/delete(userId=${user.id})}'|" th:value="#{button.delete}">
                         <input class="btn btn-default" type="button" value="취소" th:onclick="|location.href='@{/index.html}'|" th:value="#{button.cancel}">
                     </div>
                 </div>

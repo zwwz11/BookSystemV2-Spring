@@ -1,4 +1,4 @@
-package com.spring.booksystem.domain;
+package com.spring.booksystem.domain.user;
 
 
 public enum UserSex {

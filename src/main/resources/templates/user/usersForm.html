@@ -29,6 +29,7 @@
                 <thead>
                     <th th:text="#{label.user.id}">ID</th>
                     <th th:text="#{label.user.name}">이름</th>
+                    <th th:text="#{label.user.sex}">성별</th>
                     <th th:text="#{label.user.age}">나이</th>
                     <th th:text="#{label.user.phone}">phone</th>
                     <th th:text="#{label.user.email}">email</th>
@@ -37,6 +38,7 @@
                     <tr th:each="user : ${users}">
                         <td th:text="${user.id}">등록된 회원 ID</td>
                         <td><a th:text="${user.name}" th:href="@{/user/{userId}/edit(userId=${user.id})}">등록된 회원 이름</a></td>
+                        <td th:text="${user.sex.getValue()}">등록된 회원 성별</td>
                         <td th:text="${user.age}">등록된 회원 나이</td>
                         <td th:text="${user.phone}">등록된 회원 phone</td>
                         <td th:text="${user.email}">등록된 회원 email</td>

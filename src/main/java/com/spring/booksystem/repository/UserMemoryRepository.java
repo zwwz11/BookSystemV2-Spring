@@ -1,7 +1,7 @@
 package com.spring.booksystem.repository;
 
 
-import com.spring.booksystem.domain.User;
+import com.spring.booksystem.domain.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -38,6 +38,7 @@ public class UserMemoryRepository implements UserRepository {
         targetUser.setAge(updatedUser.getAge());
         targetUser.setPhone(updatedUser.getPhone());
         targetUser.setEmail(updatedUser.getEmail());
+        targetUser.setSex(updatedUser.getSex());
     }
 
     @Override

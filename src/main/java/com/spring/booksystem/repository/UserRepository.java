@@ -1,6 +1,6 @@
 package com.spring.booksystem.repository;
 
-import com.spring.booksystem.domain.User;
+import com.spring.booksystem.domain.user.User;
 
 import java.util.List;
 

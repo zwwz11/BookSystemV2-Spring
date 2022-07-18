@@ -1,8 +1,9 @@
 package com.spring.booksystem.controller;
 
-import com.spring.booksystem.domain.User;
-import com.spring.booksystem.domain.UserSex;
-import com.spring.booksystem.domain.UserUpdateDTO;
+import com.spring.booksystem.domain.user.User;
+import com.spring.booksystem.domain.user.UserInsertDTO;
+import com.spring.booksystem.domain.user.UserSex;
+import com.spring.booksystem.domain.user.UserUpdateDTO;
 import com.spring.booksystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @ModelAttribute("userSexes")
-    private UserSex[] userSexes(){
+    private UserSex[] userSexes() {
         return UserSex.values();
     }
 
@@ -35,15 +35,21 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addUser(@Validated @ModelAttribute User user, BindingResult bindingResult) {
+    public String addUser(@Validated @ModelAttribute("user") UserInsertDTO userInsertDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.info("field = {}, message = {}",fieldError.getField(), fieldError.getDefaultMessage());
+                log.info("field = {}, message = {}", fieldError.getField(), fieldError.getDefaultMessage());
             }
             return "/user/addUserForm";
         }
 
+        User user = new User();
+        user.setName(userInsertDTO.getName());
+        user.setAge(userInsertDTO.getAge());
+        user.setPhone(userInsertDTO.getPhone());
+        user.setEmail(userInsertDTO.getEmail());
+        user.setSex(userInsertDTO.getSex());
         User savedUser = userService.join(user);
         return "redirect:/user/users";
     }
@@ -55,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/edit")
-    public String editUserForm(@PathVariable Long userId, Model model){
+    public String editUserForm(@PathVariable Long userId, Model model) {
         model.addAttribute("user", userService.findUser(userId));
         return "/user/editUserForm";
     }
@@ -74,8 +80,15 @@ public class UserController {
         updatedUser.setAge(userUpdateDTO.getAge());
         updatedUser.setPhone(userUpdateDTO.getPhone());
         updatedUser.setEmail(userUpdateDTO.getEmail());
+        updatedUser.setSex(userUpdateDTO.getSex());
         userService.editUser(userId, updatedUser);
 
+        return "redirect:/user/users";
+    }
+
+    @GetMapping("/{userId}/delete")
+    public String userDelete(@PathVariable Long userId) {
+        userService.deleteUser(userId);
         return "redirect:/user/users";
     }
 }
