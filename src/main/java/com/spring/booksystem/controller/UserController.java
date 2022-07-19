@@ -4,7 +4,7 @@ import com.spring.booksystem.domain.user.User;
 import com.spring.booksystem.domain.user.UserInsertDTO;
 import com.spring.booksystem.domain.user.UserSex;
 import com.spring.booksystem.domain.user.UserUpdateDTO;
-import com.spring.booksystem.service.UserService;
+import com.spring.booksystem.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/edit")
-    public String editUser(@PathVariable Long userId, @Validated @ModelAttribute("user") UserUpdateDTO userUpdateDTO, BindingResult bindingResult) {
+    public String editUser(@Validated @ModelAttribute("user") UserUpdateDTO userUpdateDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.info("edit 에러있음");
             return "/user/editUserForm";
@@ -81,7 +81,7 @@ public class UserController {
         updatedUser.setPhone(userUpdateDTO.getPhone());
         updatedUser.setEmail(userUpdateDTO.getEmail());
         updatedUser.setSex(userUpdateDTO.getSex());
-        userService.editUser(userId, updatedUser);
+        userService.editUser(userUpdateDTO.getId(), updatedUser);
 
         return "redirect:/user/users";
     }

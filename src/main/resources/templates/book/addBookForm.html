@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <title>register book</title>
+  <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+    <!-- header fragment 불러오기 -->
+    <div th:replace="~{template/fragment/header :: copy}"></div>
+      
+      <form method="post" th:action="@{/book/register}" th:object="${book}" class="form-horizontal">
+        <div class="container">
+          <div class="page-header">
+            <h1 th:text="#{page.book.register}">도서 등록</h1>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+
+              <div class="form-group">
+                <label for="booktitle" class="col-sm-2 control-label" th:text="#{label.book.title}">제목</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="booktitle" th:field="*{title}" th:errorclass="field-error" placeholder="제목">
+                  <div class="field-error" th:errors="*{title}">제목 에러 메세지</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="bookprice" class="col-sm-2 control-label" th:text="#{label.book.price}">가격</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="bookprice" th:field="*{price}" th:errorclass="field-error" placeholder="가격">
+                  <div class="field-error" th:errors="*{price}">가격 에러 메세지</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div th:each="bookType : ${bookTypes}" class="radio-inline">
+                    <input type="radio" th:field="*{bookType}" th:value="${bookType.name()}">
+                    <label th:for="${#ids.prev('bookType')}" th:text="${bookType.value}">도서 종류</label>
+                  </div>
+                  <div class="field-error" th:errors="*{bookType}"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <input class="btn btn-primary" type="submit" value="등록" th:value="#{button.save}">
+                  <input class="btn btn-default" type="button" value="취소" th:onclick="|location.href='@{/index.html}'|" th:value="#{button.cancel}">
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </form>
+
+</body>
+</html>

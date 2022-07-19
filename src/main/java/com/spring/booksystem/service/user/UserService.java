@@ -1,4 +1,4 @@
-package com.spring.booksystem.service;
+package com.spring.booksystem.service.user;
 
 import com.spring.booksystem.domain.user.User;
 
