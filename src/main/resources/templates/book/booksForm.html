@@ -31,6 +31,8 @@
                     <th th:text="#{label.book.title}">제목</th>
                     <th th:text="#{label.book.bookType}">종류</th>
                     <th th:text="#{label.book.price}">가격</th>
+                    <th th:text="#{label.book.rent}">대여</th>
+                    <th th:text="#{label.book.return}">반납</th>
                 </thead>
                 <tbody>
                     <tr th:each="book : ${books}">
@@ -38,6 +40,7 @@
                         <td><a th:text="${book.title}" th:href="@{/book/{bookId}/edit(bookId=${book.id})}">등록된 도서 제목</a></td>
                         <td th:text="${book.bookType.getValue()}">등록된 도서 종류</td>
                         <td th:text="${book.price}">등록된 도서 가격</td>
+<!--                        <td><input type="button" th:onclick="|location.href='@{}'"></td>-->
                     </tr>
                 </tbody>
             </table>

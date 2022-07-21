@@ -14,6 +14,8 @@ public class User {
 
     Long id;
 
+    String password;
+
     @NotBlank(message = "이름을 입력해주세요.")
     String name;
 

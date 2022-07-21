@@ -14,6 +14,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -90,5 +92,23 @@ public class UserController {
     public String userDelete(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return "redirect:/user/users";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("user", new User());
+        return "/user/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login(HttpSession session, @ModelAttribute User user) {
+
+        if (0L == user.getId() && "1234".equals(user.getPassword())) {
+            session.setAttribute("SID", user.getId());
+            session.setAttribute("SNAME", user.getName());
+            return "redirect:/";
+        }
+
+        return "/user/loginForm";
     }
 }

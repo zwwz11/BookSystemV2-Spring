@@ -2,12 +2,17 @@ package com.spring.booksystem.repository.user;
 
 
 import com.spring.booksystem.domain.user.User;
+import com.spring.booksystem.domain.user.UserSex;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Repository
 public class UserMemoryRepository implements UserRepository {
 

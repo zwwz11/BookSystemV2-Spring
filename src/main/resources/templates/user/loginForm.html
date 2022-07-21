@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <title>Login</title>
+</head>
+<body>
+
+    <!-- header fragment 불러오기 -->
+    <div th:replace="~{template/fragment/header :: copy}"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-8">
+                <form class="form-signin" th:action="@{/user/login}" method="post" th:object="${user}">
+                    <h2 class="form-signin-heading">로그인</h2>
+                    <label for="userid" class="sr-only">ID</label>
+                    <input type="text" id="userid" th:field="*{id}" class="form-control" placeholder="ID" required autofocus>
+                    </br>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" th:field="*{password}" class="form-control" placeholder="Password" required>
+                    </br>
+                    <ol class="breadcrumb">
+                        <li>아이디가 없습니까? <a href="/user/register" th:text="#{signup}">회원가입</a></li>
+                    </ol>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{signin}">로그인</button>
+                </form>
+            </div>
+        </div>
+    </div> <!-- /container -->
+</body>
+</html>

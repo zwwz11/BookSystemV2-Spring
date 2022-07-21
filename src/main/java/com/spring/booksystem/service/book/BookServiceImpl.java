@@ -3,10 +3,13 @@ package com.spring.booksystem.service.book;
 import com.spring.booksystem.domain.book.Book;
 import com.spring.booksystem.repository.book.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService{
