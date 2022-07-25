@@ -73,7 +73,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <input class="btn btn-primary" type="submit" value="등록" th:value="#{button.save}">
                         <input class="btn btn-warning" type="button" value="삭제" th:onclick="|location.href='@{/book/{bookId}/delete(bookId=${book.id})}'|" th:value="#{button.delete}">
-                        <input class="btn btn-default" type="button" value="취소" th:onclick="|location.href='@{/index.html}'|" th:value="#{button.cancel}">
+                        <input class="btn btn-default" type="button" value="취소" th:onclick="|location.href='@{/}'|" th:value="#{button.cancel}">
                     </div>
                 </div>
 
