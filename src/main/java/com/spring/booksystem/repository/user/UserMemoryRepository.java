@@ -2,10 +2,7 @@ package com.spring.booksystem.repository.user;
 
 
 import com.spring.booksystem.domain.user.User;
-import com.spring.booksystem.domain.user.UserSex;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -16,11 +13,10 @@ import java.util.Map;
 @Repository
 public class UserMemoryRepository implements UserRepository {
 
-    private static Long seq = 0L;
-    private static final Map<Long, User> store = new HashMap<>();
+    private static final Map<String, User> store = new HashMap<>();
 
     @Override
-    public User findById(Long id) {
+    public User findById(String id) {
         return store.get(id);
     }
 
@@ -31,23 +27,25 @@ public class UserMemoryRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        user.setId(++seq);
+        user.setId(user.getId());
         store.put(user.getId(), user);
-        return store.get(seq);
+        return store.get(user.getId());
     }
 
     @Override
-    public void update(Long id, User updatedUser) {
+    public void update(String id, User updatedUser) {
         User targetUser = findById(id);
+        targetUser.setPassword(updatedUser.getPassword());
         targetUser.setName(updatedUser.getName());
         targetUser.setAge(updatedUser.getAge());
         targetUser.setPhone(updatedUser.getPhone());
         targetUser.setEmail(updatedUser.getEmail());
         targetUser.setSex(updatedUser.getSex());
+        targetUser.setAuth(updatedUser.getAuth());
     }
 
     @Override
-    public void remove(Long id) {
+    public void remove(String id) {
         store.remove(id);
     }
 }

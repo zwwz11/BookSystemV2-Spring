@@ -1,12 +1,10 @@
 package com.spring.booksystem.controller;
 
-import com.spring.booksystem.domain.user.User;
-import com.spring.booksystem.domain.user.UserInsertDTO;
-import com.spring.booksystem.domain.user.UserSex;
-import com.spring.booksystem.domain.user.UserUpdateDTO;
+import com.spring.booksystem.domain.user.*;
 import com.spring.booksystem.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,16 +27,19 @@ public class UserController {
         return UserSex.values();
     }
 
+    @ModelAttribute("userAuths")
+    private UserAuth[] userAuths() {
+        return UserAuth.values();
+    }
+
     @GetMapping("/register")
     public String addUserForm(Model model) {
-        log.info("addUserForm 호출");
         model.addAttribute("user", new User());
         return "user/addUserForm";
     }
 
     @PostMapping("/register")
     public String addUser(@Validated @ModelAttribute("user") UserInsertDTO userInsertDTO, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.info("field = {}, message = {}", fieldError.getField(), fieldError.getDefaultMessage());
@@ -47,12 +48,15 @@ public class UserController {
         }
 
         User user = new User();
+        user.setId(userInsertDTO.getId());
+        user.setPassword(userInsertDTO.getPassword());
         user.setName(userInsertDTO.getName());
         user.setAge(userInsertDTO.getAge());
         user.setPhone(userInsertDTO.getPhone());
         user.setEmail(userInsertDTO.getEmail());
         user.setSex(userInsertDTO.getSex());
-        User savedUser = userService.join(user);
+        user.setAuth(UserAuth.GENERAL); // 등록폼에서는 권한 지정 불가 초기값인 일반사용자로 지정
+        userService.join(user);
         return "redirect:/user/users";
     }
 
@@ -63,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/edit")
-    public String editUserForm(@PathVariable Long userId, Model model) {
+    public String editUserForm(@PathVariable String userId, Model model) {
         model.addAttribute("user", userService.findUser(userId));
         return "/user/editUserForm";
     }
@@ -71,25 +75,25 @@ public class UserController {
     @PostMapping("/{userId}/edit")
     public String editUser(@Validated @ModelAttribute("user") UserUpdateDTO userUpdateDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.info("edit 에러있음");
             return "/user/editUserForm";
         }
 
-        log.info("edit 에러없음");
         User updatedUser = new User();
         updatedUser.setId(userUpdateDTO.getId());
+        updatedUser.setPassword(userUpdateDTO.getPassword());
         updatedUser.setName(userUpdateDTO.getName());
         updatedUser.setAge(userUpdateDTO.getAge());
         updatedUser.setPhone(userUpdateDTO.getPhone());
         updatedUser.setEmail(userUpdateDTO.getEmail());
         updatedUser.setSex(userUpdateDTO.getSex());
+        updatedUser.setAuth(userUpdateDTO.getAuth());
         userService.editUser(userUpdateDTO.getId(), updatedUser);
 
         return "redirect:/user/users";
     }
 
     @GetMapping("/{userId}/delete")
-    public String userDelete(@PathVariable Long userId) {
+    public String userDelete(@PathVariable String userId) {
         userService.deleteUser(userId);
         return "redirect:/user/users";
     }
@@ -103,12 +107,23 @@ public class UserController {
     @PostMapping("/login")
     public String login(HttpSession session, @ModelAttribute User user) {
 
-        if (0L == user.getId() && "1234".equals(user.getPassword())) {
+        if ("admin".equals(user.getId()) && "1234".equals(user.getPassword())) {
             session.setAttribute("SID", user.getId());
             session.setAttribute("SNAME", user.getName());
             return "redirect:/";
         }
 
         return "/user/loginForm";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        try {
+            session.invalidate();
+            return "redirect:/";
+        }
+        catch (IllegalStateException exception) {
+            return "redirect:/";
+        }
     }
 }

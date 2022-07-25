@@ -1,13 +1,12 @@
 package com.spring.booksystem.domain.user;
 
-
-public enum UserSex {
-    MALE("남자"),
-    FEMALE("여자");
+public enum UserAuth {
+    ADMIN("관리자"),
+    GENERAL("일반사용자");
 
     private final String value;
 
-    UserSex(String value) {
+    UserAuth(String value) {
         this.value = value;
     }
 

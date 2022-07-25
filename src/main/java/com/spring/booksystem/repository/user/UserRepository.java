@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface UserRepository {
 
-    User findById(Long id);
+    User findById(String id);
     List<User> findAll();
     User save(User user);
-    void update(Long id, User updatedUser);
-    void remove(Long id);
+    void update(String id, User updatedUser);
+    void remove(String id);
 
 }

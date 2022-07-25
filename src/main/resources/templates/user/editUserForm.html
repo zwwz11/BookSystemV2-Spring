@@ -36,10 +36,18 @@
             <div class="col-xs-12">
 
                 <div class="form-group">
-                    <label for="username" class="col-sm-2 control-label" th:text="#{label.user.id}">ID</label>
+                    <label for="userId" class="col-sm-2 control-label" th:text="#{label.user.id}">ID</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userId" th:field="*{id}" th:errorclass="field-error" readonly>
-                        <div class="field-error" th:errors="*{id}">id 에러 메세지</div>
+                        <input type="text" class="form-control" id="userId" th:field="*{id}" th:errorclass="field-error" placeholder="ID" readonly>
+                        <div class="field-error" th:errors="*{id}">ID 에러 메세지</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label" th:text="#{label.user.password}">비밀번호</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="password" th:field="*{password}" th:errorclass="field-error" placeholder="PassWord">
+                        <div class="field-error" th:errors="*{password}">비밀번호 에러 메세지</div>
                     </div>
                 </div>
 
@@ -83,6 +91,16 @@
                         </div>
                         <div class="field-error" th:errors="*{sex}"></div>
                     </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <div th:each="auth : ${userAuths}" class="radio-inline">
+                      <input type="radio" th:field="*{auth}" th:value="${auth.name()}">
+                      <label th:for="${#ids.prev('auth')}" th:text="${auth.value}">권한</label>
+                    </div>
+                    <div class="field-error" th:errors="*{auth}"></div>
+                  </div>
                 </div>
 
                 <div class="form-group">

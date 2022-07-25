@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService{
     private final UserMemoryRepository userMemoryRepository;
 
     @Override
-    public User findUser(Long id) {
+    public User findUser(String id) {
         return userMemoryRepository.findById(id);
     }
 
@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void editUser(Long id, User user) {
+    public void editUser(String id, User user) {
         userMemoryRepository.update(id, user);
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         userMemoryRepository.remove(id);
     }
 }

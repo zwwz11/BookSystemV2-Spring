@@ -3,6 +3,7 @@ package com.spring.booksystem.domain.user;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
@@ -13,8 +14,11 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 public class UserUpdateDTO {
 
-    @NotNull(message = "ID는 필수입니다.")
-    Long id;
+    String id;
+
+    @NotBlank(message = "비밀번호를 입력해주세요.")
+    @Length(min = 8, max = 15, message = "비밀번호는 최소 8자리부터 최대 15자리까지 입니다.")
+    String password;
 
     @NotBlank(message = "이름을 입력해주세요.")
     String name;
@@ -24,9 +28,11 @@ public class UserUpdateDTO {
     Integer age;
 
     String phone;
-
     String email;
 
     @NotNull(message = "성별을 체크하세요")
     UserSex sex;
+
+    @NotNull(message = "권한을 체크하세요")
+    UserAuth auth;
 }

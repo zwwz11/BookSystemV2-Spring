@@ -33,6 +33,7 @@
                     <th th:text="#{label.user.age}">나이</th>
                     <th th:text="#{label.user.phone}">phone</th>
                     <th th:text="#{label.user.email}">email</th>
+                    <th th:text="#{label.user.auth}">권한</th>
                 </thead>
                 <tbody>
                     <tr th:each="user : ${users}">
@@ -42,6 +43,7 @@
                         <td th:text="${user.age}">등록된 회원 나이</td>
                         <td th:text="${user.phone}">등록된 회원 phone</td>
                         <td th:text="${user.email}">등록된 회원 email</td>
+                        <td th:text="${user.auth.getValue()}">등록된 회원 권한</td>
                     </tr>
                 </tbody>
             </table>
