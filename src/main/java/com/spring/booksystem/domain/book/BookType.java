@@ -1,7 +1,7 @@
 package com.spring.booksystem.domain.book;
 
 public enum BookType {
-    Novel("소설"),
+    NOVEL("소설"),
     ESSAY("에세이"),
     EDUCATION("교육");
 

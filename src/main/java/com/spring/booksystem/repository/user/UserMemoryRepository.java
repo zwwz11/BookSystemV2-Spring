@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Repository
+//@Repository
 public class UserMemoryRepository implements UserRepository {
 
     private static final Map<String, User> store = new HashMap<>();
