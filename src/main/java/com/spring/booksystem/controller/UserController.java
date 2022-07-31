@@ -1,24 +1,16 @@
 package com.spring.booksystem.controller;
 
-import com.spring.booksystem.common.Message;
 import com.spring.booksystem.domain.user.*;
 import com.spring.booksystem.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.resource.HttpResource;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.http.HttpResponse;
 
 @Slf4j
 @Controller
@@ -110,19 +102,29 @@ public class UserController {
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("isValidUser", true);
         return "/user/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(HttpSession session, @ModelAttribute User user) {
+    public String login(HttpSession session, @ModelAttribute User user, Model model) {
 
-        if ("admin".equals(user.getId()) && "1234".equals(user.getPassword())) {
+        User findUser = userService.findUser(user.getId());
+
+        if (findUser == null) {
+            model.addAttribute("isValidUser", false);
+            return "/user/loginForm";
+        }
+
+        if (findUser.getPassword().equals(user.getPassword())) {
             session.setAttribute("SID", user.getId());
             session.setAttribute("SNAME", user.getName());
             return "redirect:/";
         }
-
-        return "/user/loginForm";
+        else {
+            model.addAttribute("isValidUser", false);
+            return "/user/loginForm";
+        }
     }
 
     @GetMapping("/logout")

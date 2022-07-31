@@ -33,7 +33,7 @@ public class BookJdbcRepository implements BookRepository{
     @Override
     public Book findById(Long id) {
         List<Book> findBook = jdbcTemplate.query("SELECT * FROM TB_COM_BOOK WHERE BOOK_ID = ?", bookRowMapper(), id);
-        return findBook.stream().findFirst().get();
+        return findBook.stream().findFirst().orElse(null);
     }
 
     @Override

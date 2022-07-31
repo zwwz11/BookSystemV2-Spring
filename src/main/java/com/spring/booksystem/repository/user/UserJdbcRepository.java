@@ -34,7 +34,7 @@ public class UserJdbcRepository implements UserRepository{
     @Override
     public User findById(String id) {
         List<User> findUser = jdbcTemplate.query("SELECT * FROM TB_COM_USER WHERE USER_ID = ?", userRowMapper(), id);
-        return findUser.stream().findFirst().get();
+        return findUser.stream().findFirst().orElse(null);
     }
 
     @Override

@@ -18,6 +18,10 @@
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" th:field="*{password}" class="form-control" placeholder="Password" required>
                     </br>
+                    <th:block th:if="${!isValidUser}">
+                        <div class="field-error">아이디 비밀번호를 확인해주세요.</div>
+                        </br>
+                    </th:block>
                     <ol class="breadcrumb">
                         <li>아이디가 없습니까? <a href="/user/register" th:text="#{signup}">회원가입</a></li>
                     </ol>

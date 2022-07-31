@@ -24,7 +24,14 @@
                 <tbody>
                     <tr th:each="book : ${books}">
                         <td th:text="${book.id}">등록된 도서 ID</td>
-                        <td><a th:text="${book.title}" th:href="@{/book/{bookId}/edit(bookId=${book.id})}">등록된 도서 제목</a></td>
+
+                        <th:block th:if="${session.SID ne null}">
+                            <td><a th:text="${book.title}" th:href="@{/book/{bookId}/edit(bookId=${book.id})}">등록된 도서 제목</a></td>
+                        </th:block>
+                        <th:block th:unless="${session.SID ne null}">
+                            <td th:text="${book.title}">등록된 도서 제목</td>
+                        </th:block>
+
                         <td th:text="${book.bookType.getValue()}">등록된 도서 종류</td>
                         <td th:text="${book.price}">등록된 도서 가격</td>
 <!--                        <td><input type="button" th:onclick="|location.href='@{}'"></td>-->
