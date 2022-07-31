@@ -1,5 +1,6 @@
 package com.spring.booksystem.controller;
 
+import com.spring.booksystem.common.Message;
 import com.spring.booksystem.domain.user.*;
 import com.spring.booksystem.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.resource.HttpResource;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.http.HttpResponse;
 
 @Slf4j
 @Controller
@@ -35,15 +41,18 @@ public class UserController {
     @GetMapping("/register")
     public String addUserForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("alertData", null);
         return "user/addUserForm";
     }
 
     @PostMapping("/register")
     public String addUser(@Validated @ModelAttribute("user") UserInsertDTO userInsertDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.info("field = {}, message = {}", fieldError.getField(), fieldError.getDefaultMessage());
-            }
+            return "/user/addUserForm";
+        }
+
+        if (userService.findUser(userInsertDTO.getId()) != null) {
+            bindingResult.rejectValue("id", "아이디 중복", "이미 등록된 아이디입니다.");
             return "/user/addUserForm";
         }
 
