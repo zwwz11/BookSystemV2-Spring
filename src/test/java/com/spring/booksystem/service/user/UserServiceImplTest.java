@@ -92,4 +92,24 @@ class UserServiceImplTest {
         User findUser = userService.findUser(joinedUser.getId());
         assertThat(findUser.getName()).isEqualTo(userB.getName());
     }
+
+    @Test
+    @DisplayName("유저 삭제 테스트")
+    void deleteUser() {
+        User userA = new User();
+        userA.setId("User");
+        userA.setPassword("test");
+        userA.setName("UserA");
+        userA.setSex(UserSex.MALE);
+        userA.setAge(1);
+        userA.setPhone("test");
+        userA.setEmail("test");
+        userA.setAuth(UserAuth.GENERAL);
+
+        User joinedUser = userService.join(userA);
+        userService.deleteUser(joinedUser.getId());
+        User findUser = userService.findUser(joinedUser.getId());
+
+        assertThat(findUser).isEqualTo(null);
+    }
 }
