@@ -17,6 +17,16 @@ public class BookServiceImpl implements BookService{
     private final BookRepository bookRepository;
 
     @Override
+    public void rent(Long bookId, String userId) {
+        bookRepository.rentBook(bookId, userId);
+    }
+
+    @Override
+    public void returnBook(Long bookId) {
+        bookRepository.returnBook(bookId);
+    }
+
+    @Override
     public Book findBook(Long id) {
         return bookRepository.findById(id);
     }

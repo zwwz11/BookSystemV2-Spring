@@ -11,4 +11,6 @@ public interface BookRepository {
     Book save(Book book);
     void update(Long id, Book updatedBook);
     void remove(Long id);
+    void rentBook(Long bookId, String userId);
+    void returnBook(Long bookId);
 }

@@ -11,4 +11,6 @@ public interface BookService {
     Book join(Book book);
     void editBook(Long id, Book book);
     void deleteBook(Long id);
+    void rent(Long bookId, String userId);
+    void returnBook(Long bookId);
 }

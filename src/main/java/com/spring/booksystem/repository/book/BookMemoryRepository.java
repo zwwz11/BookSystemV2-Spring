@@ -10,6 +10,15 @@ import java.util.Map;
 
 //@Repository
 public class BookMemoryRepository implements BookRepository{
+    @Override
+    public void rentBook(Long bookId, String userId) {
+
+    }
+
+    @Override
+    public void returnBook(Long bookId) {
+
+    }
 
     private static Long seq = 0L;
     private static final Map<Long, Book> store = new HashMap<>();

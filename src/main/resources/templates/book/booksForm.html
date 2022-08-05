@@ -20,20 +20,42 @@
                     <th th:text="#{label.book.price}">가격</th>
                     <th th:text="#{label.book.rent}">대여</th>
                     <th th:text="#{label.book.return}">반납</th>
+                    <th th:text="#{label.book.rentcount}">대여 횟수</th>
                 </thead>
                 <tbody>
                     <tr th:each="book : ${books}">
                         <td th:text="${book.id}">등록된 도서 ID</td>
 
-                        <th:block th:if="${session.SID ne null}">
+                        <th:block th:if="${#strings.equals(session.SAUTH, T(com.spring.booksystem.domain.user.UserAuth).ADMIN)}">
                             <td><a th:text="${book.title}" th:href="@{/book/{bookId}/edit(bookId=${book.id})}">등록된 도서 제목</a></td>
                         </th:block>
-                        <th:block th:unless="${session.SID ne null}">
+                        <th:block th:unless="${#strings.equals(session.SAUTH, T(com.spring.booksystem.domain.user.UserAuth).ADMIN)}">
                             <td th:text="${book.title}">등록된 도서 제목</td>
                         </th:block>
 
                         <td th:text="${book.bookType.getValue()}">등록된 도서 종류</td>
                         <td th:text="${book.price}">등록된 도서 가격</td>
+                        <th:block th:if="${session.SID ne null}">
+                            <th:block th:if="${book.rent_YN}">
+                                <td><input type="button" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}" disabled></td>
+                            </th:block>
+                            <th:block th:unless="${book.rent_YN}">
+                                <td><input type="button" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}"></td>
+                            </th:block>
+
+                            <th:block th:if="${book.rent_YN}">
+                                <td><input type="button" th:onclick="|location.href='@{/book/{bookId}/return(bookId=${book.id})}'|" th:value="#{button.book.return}"></td>
+                            </th:block>
+                            <th:block th:unless="${book.rent_YN}">
+                                <td><input type="button" th:onclick="|location.href='@{/book/{bookId}/return(bookId=${book.id})}'|" th:value="#{button.book.return}" disabled></td>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${session.SID ne null}">
+                            <td><input type="button" th:value="#{button.book.rent}" disabled></td>
+                            <td><input type="button" th:value="#{button.book.return}" disabled></td>
+                        </th:block>
+
+                        <td th:text="${book.rentCount}">등록된 대여 횟수</td>
 <!--                        <td><input type="button" th:onclick="|location.href='@{}'"></td>-->
                     </tr>
                 </tbody>

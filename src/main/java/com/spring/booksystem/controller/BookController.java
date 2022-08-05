@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -77,6 +79,18 @@ public class BookController {
     @GetMapping("/{bookId}/delete")
     public String deleteBook(@PathVariable Long bookId) {
         bookService.deleteBook(bookId);
+        return "redirect:/book/books";
+    }
+
+    @GetMapping("/{bookId}/rent")
+    public String rentBook(@PathVariable Long bookId, HttpSession session) {
+        bookService.rent(bookId, session.getAttribute("SID").toString());
+        return "redirect:/book/books";
+    }
+
+    @GetMapping("/{bookId}/return")
+    public String returnBook(@PathVariable Long bookId) {
+        bookService.returnBook(bookId);
         return "redirect:/book/books";
     }
 }

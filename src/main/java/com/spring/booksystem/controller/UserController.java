@@ -117,8 +117,9 @@ public class UserController {
         }
 
         if (findUser.getPassword().equals(user.getPassword())) {
-            session.setAttribute("SID", user.getId());
-            session.setAttribute("SNAME", user.getName());
+            session.setAttribute("SID", findUser.getId());
+            session.setAttribute("SNAME", findUser.getName());
+            session.setAttribute("SAUTH", findUser.getAuth());
             return "redirect:/";
         }
         else {

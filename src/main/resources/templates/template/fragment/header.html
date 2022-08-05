@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <!-- <li><a href="#">Link</a></li> -->
-                        <th:block th:if="${session.SID ne null}">
+                        <th:block th:if="${#strings.equals(session.SAUTH, T(com.spring.booksystem.domain.user.UserAuth).ADMIN)}">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">회원 관리<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
@@ -35,7 +35,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">도서 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li th:if="${session.SID ne null}"><a href="/book/register" th:text="#{page.book.register}">도서 등록</a></li>
+                                <li th:if="${#strings.equals(session.SAUTH, T(com.spring.booksystem.domain.user.UserAuth).ADMIN)}"><a href="/book/register" th:text="#{page.book.register}">도서 등록</a></li>
                                 <li><a href="/book/books" th:text="#{page.books}">도서 목록</a></li>
                             </ul>
                         </li>

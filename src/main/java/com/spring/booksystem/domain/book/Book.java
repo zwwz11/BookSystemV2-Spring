@@ -16,4 +16,8 @@ public class Book {
     Integer price;
 
     BookType bookType;
+
+    Boolean rent_YN;
+
+    Integer rentCount;
 }

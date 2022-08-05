@@ -31,6 +31,34 @@ public class BookJdbcRepository implements BookRepository{
     }
 
     @Override
+    public void rentBook(Long bookId, String userId) {
+        jdbcTemplate.update("UPDATE TB_COM_BOOK " +
+                                "SET RENT_YN = 1 " +
+                                "  , RENT_COUNT = RENT_COUNT + 1 " +
+                                "WHERE BOOK_ID = ?", bookId);
+
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        jdbcInsert.withTableName("TB_BOOK_RENT");
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("BOOK_ID", bookId);
+        param.put("USER_ID", userId);
+        param.put("RENT_DT", LocalDateTime.now());
+
+        jdbcInsert.execute(param);
+    }
+
+    @Override
+    public void returnBook(Long bookId) {
+        jdbcTemplate.update("UPDATE TB_COM_BOOK " +
+                                "SET RENT_YN = 0 " +
+                                "WHERE BOOK_ID = ?", bookId);
+
+        jdbcTemplate.update("DELETE FROM TB_BOOK_RENT " +
+                                "WHERE BOOK_ID = ?", bookId);
+    }
+
+    @Override
     public Book findById(Long id) {
         List<Book> findBook = jdbcTemplate.query("SELECT * FROM TB_COM_BOOK WHERE BOOK_ID = ?", bookRowMapper(), id);
         return findBook.stream().findFirst().orElse(null);
@@ -51,6 +79,8 @@ public class BookJdbcRepository implements BookRepository{
         param.put("TITLE", book.getTitle());
         param.put("PRICE", book.getPrice());
         param.put("TYPE_COM_CD", book.getBookType());
+        param.put("RENT_YN", false);
+        param.put("RENT_COUNT", 0);
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(param));
 
         return findById(key.longValue());
@@ -80,6 +110,8 @@ public class BookJdbcRepository implements BookRepository{
             book.setTitle(rs.getString("TITLE"));
             book.setPrice(rs.getInt("PRICE"));
             book.setBookType(BookType.valueOf(rs.getString("TYPE_COM_CD")));
+            book.setRent_YN(rs.getBoolean("RENT_YN"));
+            book.setRentCount(rs.getInt("RENT_COUNT"));
             return book;
         };
     }
