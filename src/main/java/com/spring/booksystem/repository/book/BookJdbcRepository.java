@@ -33,7 +33,7 @@ public class BookJdbcRepository implements BookRepository{
     @Override
     public void rentBook(Long bookId, String userId) {
         jdbcTemplate.update("UPDATE TB_COM_BOOK " +
-                                "SET RENT_YN = 1 " +
+                                "SET RENT_YN = 0 " +
                                 "  , RENT_COUNT = RENT_COUNT + 1 " +
                                 "WHERE BOOK_ID = ?", bookId);
 
@@ -51,7 +51,7 @@ public class BookJdbcRepository implements BookRepository{
     @Override
     public void returnBook(Long bookId) {
         jdbcTemplate.update("UPDATE TB_COM_BOOK " +
-                                "SET RENT_YN = 0 " +
+                                "SET RENT_YN = 1 " +
                                 "WHERE BOOK_ID = ?", bookId);
 
         jdbcTemplate.update("DELETE FROM TB_BOOK_RENT " +
@@ -79,7 +79,7 @@ public class BookJdbcRepository implements BookRepository{
         param.put("TITLE", book.getTitle());
         param.put("PRICE", book.getPrice());
         param.put("TYPE_COM_CD", book.getBookType());
-        param.put("RENT_YN", false);
+        param.put("RENT_YN", true);
         param.put("RENT_COUNT", 0);
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(param));
 
