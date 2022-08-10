@@ -7,6 +7,8 @@ import com.spring.booksystem.domain.book.BookUpdateDTO;
 import com.spring.booksystem.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +20,14 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@PropertySource("classpath:/common.properties")
 @RequestMapping("/book")
 public class BookController {
 
     private final BookService bookService;
+
+    @Value("${file.path}")
+    private String savePath;
 
     @ModelAttribute("bookTypes")
     public BookType[] bookTypes() {
