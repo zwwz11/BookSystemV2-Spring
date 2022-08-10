@@ -20,4 +20,10 @@ public class Book {
     Boolean rent_YN;
 
     Integer rentCount;
+
+    String description;
+
+    String fileNM;
+
+    String fileNM_UUID;
 }

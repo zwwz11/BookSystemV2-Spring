@@ -14,8 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -62,7 +66,9 @@ public class BookController {
     }
 
     @PostMapping("/{bookId}/edit")
-    public String editBook(@Validated @ModelAttribute("book") BookUpdateDTO bookUpdateDTO, BindingResult bindingResult) {
+    public String editBook(@Validated @ModelAttribute("book") BookUpdateDTO bookUpdateDTO, BindingResult bindingResult
+            , @RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
+
         if (bindingResult.hasErrors()) {
             return "/book/editBookForm";
         }
@@ -72,6 +78,16 @@ public class BookController {
         book.setTitle(bookUpdateDTO.getTitle());
         book.setPrice(bookUpdateDTO.getPrice());
         book.setBookType(bookUpdateDTO.getBookType());
+        book.setDescription(bookUpdateDTO.getDescription());
+        // 이미지 등록
+        if (!file.isEmpty()) {
+            String uuid = UUID.randomUUID().toString() + ".jpg";
+            File convertFile = new File("C:\\images", uuid);
+            file.transferTo(convertFile);
+            book.setFileNM(file.getOriginalFilename());
+            book.setFileNM_UUID(uuid);
+        }
+
         bookService.editBook(bookUpdateDTO.getId(), book);
         return "redirect:/book/books";
     }

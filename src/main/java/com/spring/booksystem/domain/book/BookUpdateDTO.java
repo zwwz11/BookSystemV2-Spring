@@ -26,4 +26,8 @@ public class BookUpdateDTO {
 
     @NotNull(message = "책 타입을 체크해주세요")
     BookType bookType;
+
+    String description;
+    String fileNM;
+    String fileNM_UUID;
 }
