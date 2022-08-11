@@ -81,6 +81,9 @@ public class BookJdbcRepository implements BookRepository{
         param.put("TYPE_COM_CD", book.getBookType());
         param.put("RENT_YN", true);
         param.put("RENT_COUNT", 0);
+        param.put("DESCRIPTION", book.getDescription());
+        param.put("FILE_NM", book.getFileName());
+        param.put("FILE_NM_UUID", book.getFileNameUUID());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(param));
 
         return findById(key.longValue());

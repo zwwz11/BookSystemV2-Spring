@@ -6,7 +6,7 @@
     <!-- header fragment 불러오기 -->
     <div th:replace="~{template/fragment/header :: common_header}"></div>
       
-      <form method="post" th:action="@{/book/register}" th:object="${book}" class="form-horizontal">
+      <form method="post" th:action="@{/book/register}" th:object="${book}" class="form-horizontal" enctype="multipart/form-data">
         <div class="container">
           <div class="page-header">
             <h1 th:text="#{page.book.register}">도서 등록</h1>
@@ -32,12 +32,30 @@
               </div>
 
               <div class="form-group">
+                <label for="description" class="col-sm-2 control-label" th:text="#{label.book.description}">설명</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="description" th:field="*{description}" th:placeholder="#{label.book.description}">
+                </div>
+              </div>
+
+              <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <div th:each="bookType : ${bookTypes}" class="radio-inline">
                     <input type="radio" th:field="*{bookType}" th:value="${bookType.name()}">
                     <label th:for="${#ids.prev('bookType')}" th:text="${bookType.value}">도서 종류</label>
                   </div>
                   <div class="field-error" th:errors="*{bookType}"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div class="panel panel-default">
+                    <div class="panel-body" th:text="#{label.book.image}">이미지</div>
+                    <div class="panel-footer">
+                      <input type="file" name="file" value="파일 선택" th:value="#{button.fileChoice}">
+                    </div>
+                  </div>
                 </div>
               </div>
 

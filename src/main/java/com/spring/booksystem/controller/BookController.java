@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -45,7 +46,9 @@ public class BookController {
     }
 
     @PostMapping("/register")
-    public String addBook(@Validated @ModelAttribute("book") BookInsertDTO bookInsertDTO, BindingResult bindingResult) {
+    public String addBook(@Validated @ModelAttribute("book") BookInsertDTO bookInsertDTO, BindingResult bindingResult
+            , @RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
+
         if (bindingResult.hasErrors()) {
             return "/book/addBookForm";
         }
@@ -54,6 +57,16 @@ public class BookController {
         book.setTitle(bookInsertDTO.getTitle());
         book.setPrice(bookInsertDTO.getPrice());
         book.setBookType(bookInsertDTO.getBookType());
+        book.setDescription(bookInsertDTO.getDescription());
+
+        // 이미지 등록
+        if (!file.isEmpty()) {
+            String uuid = UUID.randomUUID() + ".jpg";
+            File convertFile = new File(savePath, uuid);
+            file.transferTo(convertFile);
+            book.setFileName(file.getOriginalFilename());
+            book.setFileNameUUID(uuid);
+        }
         bookService.join(book);
 
         return "redirect:/book/books";
@@ -81,8 +94,8 @@ public class BookController {
         book.setDescription(bookUpdateDTO.getDescription());
         // 이미지 등록
         if (!file.isEmpty()) {
-            String uuid = UUID.randomUUID().toString() + ".jpg";
-            File convertFile = new File("C:\\images", uuid);
+            String uuid = UUID.randomUUID() + ".jpg";
+            File convertFile = new File(savePath, uuid);
             file.transferTo(convertFile);
             book.setFileName(file.getOriginalFilename());
             book.setFileNameUUID(uuid);
