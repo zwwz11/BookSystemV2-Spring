@@ -62,8 +62,8 @@
 <!--                        </th:block>-->
 
                         <!-- 대여 여부 -->
-                        <td th:if="${book.rent_YN}">대여 가능</td>
-                        <td th:unless="${book.rent_YN}">대여 불가능</td>
+                        <td th:if="${book.rentYN}">대여 가능</td>
+                        <td th:unless="${book.rentYN}">대여 불가능</td>
 
                         <!-- 대여 횟수 -->
                         <td th:text="${book.rentCount}">등록된 대여 횟수</td>

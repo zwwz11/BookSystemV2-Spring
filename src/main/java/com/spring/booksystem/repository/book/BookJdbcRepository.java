@@ -99,8 +99,8 @@ public class BookJdbcRepository implements BookRepository{
                                                     , updatedBook.getPrice()
                                                     , updatedBook.getBookType().toString()
                                                     , updatedBook.getDescription()
-                                                    , updatedBook.getFileNM()
-                                                    , updatedBook.getFileNM_UUID()
+                                                    , updatedBook.getFileName()
+                                                    , updatedBook.getFileNameUUID()
                                                     , id);
     }
 
@@ -116,11 +116,11 @@ public class BookJdbcRepository implements BookRepository{
             book.setTitle(rs.getString("TITLE"));
             book.setPrice(rs.getInt("PRICE"));
             book.setBookType(BookType.valueOf(rs.getString("TYPE_COM_CD")));
-            book.setRent_YN(rs.getBoolean("RENT_YN"));
+            book.setRentYN(rs.getBoolean("RENT_YN"));
             book.setRentCount(rs.getInt("RENT_COUNT"));
             book.setDescription(rs.getString("DESCRIPTION"));
-            book.setFileNM(rs.getString("FILE_NM"));
-            book.setFileNM_UUID(rs.getString("FILE_NM_UUID"));
+            book.setFileName(rs.getString("FILE_NM"));
+            book.setFileNameUUID(rs.getString("FILE_NM_UUID"));
             return book;
         };
     }

@@ -17,13 +17,13 @@ public class Book {
 
     BookType bookType;
 
-    Boolean rent_YN;
+    Boolean rentYN;
 
     Integer rentCount;
 
     String description;
 
-    String fileNM;
+    String fileName;
 
-    String fileNM_UUID;
+    String fileNameUUID;
 }

@@ -84,8 +84,8 @@ public class BookController {
             String uuid = UUID.randomUUID().toString() + ".jpg";
             File convertFile = new File("C:\\images", uuid);
             file.transferTo(convertFile);
-            book.setFileNM(file.getOriginalFilename());
-            book.setFileNM_UUID(uuid);
+            book.setFileName(file.getOriginalFilename());
+            book.setFileNameUUID(uuid);
         }
 
         bookService.editBook(bookUpdateDTO.getId(), book);

@@ -28,6 +28,6 @@ public class BookUpdateDTO {
     BookType bookType;
 
     String description;
-    String fileNM;
-    String fileNM_UUID;
+    String fileName;
+    String fileNameUUID;
 }
