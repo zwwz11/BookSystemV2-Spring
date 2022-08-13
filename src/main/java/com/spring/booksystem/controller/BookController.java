@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -127,5 +126,12 @@ public class BookController {
     public String returnBook(@PathVariable Long bookId) {
         bookService.returnBook(bookId);
         return "redirect:/book/books";
+    }
+
+    @GetMapping("{bookId}/detail")
+    public String detailBook(@PathVariable Long bookId, Model model) {
+        Book findBook = bookService.findBook(bookId);
+        model.addAttribute("book", findBook);
+        return "/book/bookDetail";
     }
 }

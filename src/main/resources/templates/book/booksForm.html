@@ -29,42 +29,14 @@
                         <!-- 도서 ID -->
                         <td th:text="${book.id}">등록된 도서 ID</td>
                         <!-- 도서 제목 -->
-                        <td><a th:text="${book.title}" href="#">등록된 도서 제목</a></td>
+                        <td><a th:text="${book.title}" th:href="@{/book/{bookId}/detail(bookId=${book.id})}">등록된 도서 제목</a></td>
                         <!-- 도서 종류 -->
                         <td th:text="${book.bookType.getValue()}">등록된 도서 종류</td>
                         <!-- 도서 가격 -->
                         <td th:text="${book.price}">등록된 도서 가격</td>
-
-
-<!--                        &lt;!&ndash; 도서 대여/반납 &ndash;&gt;-->
-<!--                        &lt;!&ndash; 세션이 존재하면 대여/반납 활성화 &ndash;&gt;-->
-<!--                        <th:block th:if="${session.SID ne null}">-->
-<!--                            &lt;!&ndash; 도서 대여 여부에 따른 대여버튼 활성/비활성화 &ndash;&gt;-->
-<!--                            <th:block th:if="${book.rent_YN}">-->
-<!--                                <td><input class="btn btn-primary" type="button" th:value="#{button.book.rent}" disabled></td>-->
-<!--                            </th:block>-->
-<!--                            <th:block th:unless="${book.rent_YN}">-->
-<!--                                <td><input class="btn btn-primary" type="button" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}"></td>-->
-<!--                            </th:block>-->
-
-<!--                            &lt;!&ndash; 도서 대여 여부에 따른 반납버튼 활성/비활성화 &ndash;&gt;-->
-<!--                            <th:block th:if="${book.rent_YN}">-->
-<!--                                <td><input class="btn btn-primary" type="button" th:onclick="|location.href='@{/book/{bookId}/return(bookId=${book.id})}'|" th:value="#{button.book.return}"></td>-->
-<!--                            </th:block>-->
-<!--                            <th:block th:unless="${book.rent_YN}">-->
-<!--                                <td><input class="btn btn-primary" type="button" th:value="#{button.book.return}" disabled></td>-->
-<!--                            </th:block>-->
-<!--                        </th:block>-->
-<!--                        &lt;!&ndash; 세션이 존재하지 않으면 대여/반납 비활성화 &ndash;&gt;-->
-<!--                        <th:block th:unless="${session.SID ne null}">-->
-<!--                            <td><input class="btn btn-primary" type="button" th:value="#{button.book.rent}" disabled></td>-->
-<!--                            <td><input class="btn btn-primary" type="button" th:value="#{button.book.return}" disabled></td>-->
-<!--                        </th:block>-->
-
                         <!-- 대여 여부 -->
                         <td th:if="${book.rentYN}">대여 가능</td>
                         <td th:unless="${book.rentYN}">대여 불가능</td>
-
                         <!-- 대여 횟수 -->
                         <td th:text="${book.rentCount}">등록된 대여 횟수</td>
 

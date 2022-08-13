@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template/fragment/head :: common_head(~{::title})">
+    <title>books</title>
+</head>
+<body>
+
+<div th:replace="~{template/fragment/header :: common_header}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1 th:text="#{page.book}">도서 상세</h1>
+    </div>
+
+    <div style="width: 50%; float: left;">
+        <img th:src="@{/images/book/} + ${book.fileNameUUID}" style="width: 90%;" alt="도서 이미지">
+    </div>
+
+    <div style="width: 50%; float: right;">
+        <div class="row">
+
+            <div class="form-group">
+                <label for="bookId" class="col-sm-2 control-label" th:text="#{label.book.id}">ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="bookId" th:field="${book.id}" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="booktitle" class="col-sm-2 control-label" th:text="#{label.book.title}">제목</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="booktitle" th:field="${book.title}" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bookprice" class="col-sm-2 control-label" th:text="#{label.book.price}">가격</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="bookprice" th:field="${book.price}" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label" th:text="#{label.book.description}">설명</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="description" th:field="${book.description}" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div th:each="bookType : ${bookTypes}" class="radio-inline">
+                        <input type="radio" th:field="${book.bookType}" th:value="${bookType.name()}" readonly>
+                        <label th:for="${#ids.prev('bookType')}" th:text="${bookType.value}">종류</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <!-- 세션 및 빌린 사람에따른 대여/반납 처리해야함. -->
+                    <input class="btn btn-primary" type="button" value="대여" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}" th:if="${book.rentYN}">
+                    <input class="btn btn-primary" type="button" value="대여" th:value="#{button.book.rent}" th:unless="${book.rentYN}" readonly>
+
+                    <input class="btn btn-warning" type="button" value="반납" th:onclick="|location.href='@{#}'|" th:value="#{button.book.return}">
+                    <input class="btn btn-default" type="button" value="이전" th:onclick="|location.href='@{/book/books}'|" th:value="#{button.prePage}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
