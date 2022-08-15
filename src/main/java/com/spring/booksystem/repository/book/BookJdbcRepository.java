@@ -71,6 +71,15 @@ public class BookJdbcRepository implements BookRepository{
     }
 
     @Override
+    public List<Book> findRentListByUser(String userId) {
+        List<Book> findRentList = jdbcTemplate.query("SELECT TCB.* " +
+                                                         "FROM TB_BOOK_RENT TBR " +
+                                                         "INNER JOIN TB_COM_BOOK TCB ON TBR.BOOK_ID = TCB.BOOK_ID " +
+                                                         "WHERE TBR.USER_ID = '" + userId + "'", bookRowMapper());
+        return findRentList;
+    }
+
+    @Override
     public Book save(Book book) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("TB_COM_BOOK").usingGeneratedKeyColumns("BOOK_ID");

@@ -37,6 +37,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public List<Book> findRentListByUser(String userId) {
+        return bookRepository.findRentListByUser(userId);
+    }
+
+    @Override
     public Book join(Book book) {
         return bookRepository.save(book);
     }

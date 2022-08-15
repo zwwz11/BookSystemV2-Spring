@@ -34,6 +34,11 @@ public class BookMemoryRepository implements BookRepository{
     }
 
     @Override
+    public List<Book> findRentListByUser(String userId) {
+        return null;
+    }
+
+    @Override
     public Book save(Book book) {
         book.setId(++seq);
         store.put(book.getId(), book);

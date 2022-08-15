@@ -8,6 +8,7 @@ import java.util.List;
 public interface BookRepository {
     Book findById(Long id);
     List<Book> findAll();
+    List<Book> findRentListByUser(String userId);
     Book save(Book book);
     void update(Long id, Book updatedBook);
     void remove(Long id);

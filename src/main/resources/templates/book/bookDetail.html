@@ -60,8 +60,6 @@
                         <input class="btn btn-primary" type="button" value="대여" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}" th:if="${book.rentYN}">
                         <input class="btn btn-primary" type="button" value="대여" th:value="#{button.book.rent}" th:unless="${book.rentYN}" disabled>
                     </th:block>
-
-                    <input class="btn btn-warning" type="button" value="반납" th:onclick="|location.href='@{#}'|" th:value="#{button.book.return}">
                     <input class="btn btn-default" type="button" value="이전" th:onclick="|location.href='@{/book/books}'|" th:value="#{button.prePage}">
                 </div>
             </div>

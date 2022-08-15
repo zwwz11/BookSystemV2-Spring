@@ -45,6 +45,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">[[${session.SNAME} + '님']]<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a th:href="@{/user/{userId}/edit-profile(userId=${session.SID})}" th:text="#{editProfile}">개인 정보 수정</a></li>
+                                    <li><a th:href="@{/book/{userId}/rent-list(userId=${session.SID})}" th:text="#{rentList}">대여 리스트</a></li>
                                     <li th:unless="${session.SID eq null}"><a href="/user/logout" th:text="#{logout}">로그아웃</a></li>
                                 </ul>
                             </li>

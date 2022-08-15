@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template/fragment/head :: common_head(~{::title})">
+    <title>rent List</title>
+</head>
+<body>
+<div th:replace="~{template/fragment/header :: common_header}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1 th:text="#{page.books}">도서 목록</h1>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" th:text="#{page.books}">도서 목록</div>
+        <table class="table">
+            <thead>
+            <th th:text="#{label.book.id}">ID</th>
+            <th th:text="#{label.book.title}">제목</th>
+            <th th:text="#{label.book.bookType}">종류</th>
+            <th th:text="#{label.book.price}">가격</th>
+            <th th:text="#{label.book.rentcount}">대여 횟수</th>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <!-- 도서 ID -->
+                <td th:text="${book.id}">등록된 도서 ID</td>
+                <!-- 도서 제목 -->
+                <td><a th:text="${book.title}" th:href="@{/book/{bookId}/detail(bookId=${book.id})}">등록된 도서 제목</a></td>
+                <!-- 도서 종류 -->
+                <td th:text="${book.bookType.getValue()}">등록된 도서 종류</td>
+                <!-- 도서 가격 -->
+                <td th:text="${book.price}">등록된 도서 가격</td>
+                <!-- 대여 횟수 -->
+                <td th:text="${book.rentCount}">등록된 대여 횟수</td>
+                <!-- 반납 버튼-->
+                <td><input type="button" class="btn btn-primary" th:onclick="|location.href='@{/book/{bookId}/return(bookId=${book.id})}'|" th:value="#{button.book.return}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

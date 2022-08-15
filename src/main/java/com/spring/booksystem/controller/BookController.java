@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -133,5 +134,12 @@ public class BookController {
         Book findBook = bookService.findBook(bookId);
         model.addAttribute("book", findBook);
         return "/book/bookDetail";
+    }
+
+    @GetMapping("{userId}/rent-list")
+    public String userRentListForm(@PathVariable String userId, Model model) {
+        List<Book> rentListByUser = bookService.findRentListByUser(userId);
+        model.addAttribute("books", rentListByUser);
+        return "/book/userRentListForm";
     }
 }
