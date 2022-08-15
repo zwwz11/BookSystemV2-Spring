@@ -17,7 +17,6 @@
 
     <div style="width: 50%; float: right;">
         <div class="row">
-
             <div class="form-group">
                 <label for="bookId" class="col-sm-2 control-label" th:text="#{label.book.id}">ID</label>
                 <div class="col-sm-10">
@@ -57,9 +56,10 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <!-- 세션 및 빌린 사람에따른 대여/반납 처리해야함. -->
-                    <input class="btn btn-primary" type="button" value="대여" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}" th:if="${book.rentYN}">
-                    <input class="btn btn-primary" type="button" value="대여" th:value="#{button.book.rent}" th:unless="${book.rentYN}" readonly>
+                    <th:block th:if="${session.SID ne null}">
+                        <input class="btn btn-primary" type="button" value="대여" th:onclick="|location.href='@{/book/{bookId}/rent(bookId=${book.id})}'|" th:value="#{button.book.rent}" th:if="${book.rentYN}">
+                        <input class="btn btn-primary" type="button" value="대여" th:value="#{button.book.rent}" th:unless="${book.rentYN}" disabled>
+                    </th:block>
 
                     <input class="btn btn-warning" type="button" value="반납" th:onclick="|location.href='@{#}'|" th:value="#{button.book.return}">
                     <input class="btn btn-default" type="button" value="이전" th:onclick="|location.href='@{/book/books}'|" th:value="#{button.prePage}">

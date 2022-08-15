@@ -6,7 +6,6 @@
     <header th:fragment="common_header">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
@@ -17,10 +16,8 @@
                     <a class="navbar-brand" href="/">Book System</a>
                 </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <!-- <li><a href="#">Link</a></li> -->
                         <th:block th:if="${#strings.equals(session.SAUTH, T(com.spring.booksystem.domain.user.UserAuth).ADMIN)}">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">회원 관리<span class="caret"></span></a>
@@ -38,18 +35,20 @@
                                 <li><a href="/book/books" th:text="#{page.books}">도서 목록</a></li>
                             </ul>
                         </li>
-<!--                        <li class="dropdown">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여/반납<span class="caret"></span></a>-->
-<!--                            <ul class="dropdown-menu" role="menu">-->
-<!--                                <li><a href="#">도서 대여</a></li>-->
-<!--                                <li><a href="#">도서 반납</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li th:if="${session.SID eq null}"><a href="/user/login" th:text="#{login}">로그인</a></li>
-                        <li th:unless="${session.SID eq null}"><a href="/user/logout" th:text="#{logout}">로그아웃</a></li>
+                        <th:block th:if="${session.SID eq null}">
+                            <li th:if="${session.SID eq null}"><a href="/user/login" th:text="#{login}">로그인</a></li>
+                        </th:block>
+                        <th:block th:unless="${session.SID eq null}">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">[[${session.SNAME} + '님']]<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a th:href="@{/user/{userId}/edit-profile(userId=${session.SID})}" th:text="#{editProfile}">개인 정보 수정</a></li>
+                                    <li th:unless="${session.SID eq null}"><a href="/user/logout" th:text="#{logout}">로그아웃</a></li>
+                                </ul>
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
             </div>

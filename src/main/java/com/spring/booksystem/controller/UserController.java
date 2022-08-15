@@ -93,6 +93,34 @@ public class UserController {
         return "redirect:/user/users";
     }
 
+    @GetMapping("/{userId}/edit-profile")
+    public String editUserProfileForm(@PathVariable String userId, Model model) {
+        model.addAttribute("user", userService.findUser(userId));
+        return "/user/editUserProfileForm";
+    }
+
+    @PostMapping("/{userId}/edit-profile")
+    public String editUserProfile(@Validated @ModelAttribute("user") UserProflieUpdateDTO userProflieUpdateDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/user/editUserProfileForm";
+        }
+
+        User findUser = userService.findUser(userProflieUpdateDTO.getId());
+
+        User updatedUser = new User();
+        updatedUser.setId(userProflieUpdateDTO.getId());
+        updatedUser.setPassword(userProflieUpdateDTO.getPassword());
+        updatedUser.setName(userProflieUpdateDTO.getName());
+        updatedUser.setAge(userProflieUpdateDTO.getAge());
+        updatedUser.setPhone(userProflieUpdateDTO.getPhone());
+        updatedUser.setEmail(userProflieUpdateDTO.getEmail());
+        updatedUser.setSex(userProflieUpdateDTO.getSex());
+        updatedUser.setAuth(findUser.getAuth());
+        userService.editUser(userProflieUpdateDTO.getId(), updatedUser);
+
+        return "redirect:/";
+    }
+
     @GetMapping("/{userId}/delete")
     public String userDelete(@PathVariable String userId) {
         userService.deleteUser(userId);
