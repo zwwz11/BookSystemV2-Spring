@@ -1,6 +1,7 @@
 package com.spring.booksystem.service.book;
 
 import com.spring.booksystem.domain.book.Book;
+import com.spring.booksystem.page.PageParam;
 import com.spring.booksystem.repository.book.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,8 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<Book> findAllBook() {
-        return bookRepository.findAll();
+    public List<Book> findAllBook(PageParam pageParam) {
+        return bookRepository.findAll(pageParam);
     }
 
     @Override
@@ -54,5 +55,10 @@ public class BookServiceImpl implements BookService{
     @Override
     public void deleteBook(Long id) {
         bookRepository.remove(id);
+    }
+
+    @Override
+    public int getTotalCount() {
+        return bookRepository.getTotalCount();
     }
 }

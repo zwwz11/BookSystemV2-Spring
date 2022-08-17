@@ -4,6 +4,8 @@ import com.spring.booksystem.domain.book.Book;
 import com.spring.booksystem.domain.book.BookInsertDTO;
 import com.spring.booksystem.domain.book.BookType;
 import com.spring.booksystem.domain.book.BookUpdateDTO;
+import com.spring.booksystem.page.PageDTO;
+import com.spring.booksystem.page.PageParam;
 import com.spring.booksystem.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -106,8 +108,15 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public String books(Model model) {
-        model.addAttribute("books", bookService.findAllBook());
+    public String books(Model model, @RequestParam(defaultValue = "1") int currentPage) {
+        PageParam pageParam = new PageParam();
+        pageParam.setPage(currentPage);
+
+        int totalCount = bookService.getTotalCount();
+        PageDTO pageDTO = new PageDTO(pageParam, totalCount);
+
+        model.addAttribute("books", bookService.findAllBook(pageParam));
+        model.addAttribute("page", pageDTO);
         return "/book/booksForm";
     }
 

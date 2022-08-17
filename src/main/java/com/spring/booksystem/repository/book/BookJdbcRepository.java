@@ -5,6 +5,7 @@ import com.spring.booksystem.domain.book.BookType;
 import com.spring.booksystem.domain.user.User;
 import com.spring.booksystem.domain.user.UserAuth;
 import com.spring.booksystem.domain.user.UserSex;
+import com.spring.booksystem.page.PageParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -65,8 +67,20 @@ public class BookJdbcRepository implements BookRepository{
     }
 
     @Override
-    public List<Book> findAll() {
-        List<Book> findBooks = jdbcTemplate.query("SELECT * FROM TB_COM_BOOK", bookRowMapper());
+    public int getTotalCount() {
+        List<Integer> totalCount = jdbcTemplate.query("SELECT COUNT(BOOK_ID) AS TOTAL FROM TB_COM_BOOK", bookTotalCountRowMapper());
+        return totalCount.get(0);
+    }
+
+    @Override
+    public List<Book> findAll(PageParam pageParam) {
+        int startPage = pageParam.getStart();
+        int amount = pageParam.getAmount();
+
+        List<Book> findBooks = jdbcTemplate.query("SELECT * " +
+                                                      "FROM TB_COM_BOOK " +
+                                                      "LIMIT " + startPage + ", " + amount
+                                                      , bookRowMapper());
         return findBooks;
     }
 
@@ -135,5 +149,9 @@ public class BookJdbcRepository implements BookRepository{
             book.setFileNameUUID(rs.getString("FILE_NM_UUID"));
             return book;
         };
+    }
+
+    private RowMapper<Integer> bookTotalCountRowMapper() {
+        return (rs, rowNum) -> rs.getInt("TOTAL");
     }
 }

@@ -1,7 +1,6 @@
 package com.spring.booksystem.service.user;
 
 import com.spring.booksystem.domain.user.User;
-import com.spring.booksystem.repository.user.UserMemoryRepository;
 import com.spring.booksystem.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
