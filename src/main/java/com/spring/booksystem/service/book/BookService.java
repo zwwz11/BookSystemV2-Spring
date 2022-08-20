@@ -15,5 +15,5 @@ public interface BookService {
     void deleteBook(Long id);
     void rent(Long bookId, String userId);
     void returnBook(Long bookId);
-    int getTotalCount();
+    int getBooksTotalCount();
 }

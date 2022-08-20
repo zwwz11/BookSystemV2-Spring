@@ -67,7 +67,7 @@ public class BookJdbcRepository implements BookRepository{
     }
 
     @Override
-    public int getTotalCount() {
+    public int getBooksTotalCount() {
         List<Integer> totalCount = jdbcTemplate.query("SELECT COUNT(BOOK_ID) AS TOTAL FROM TB_COM_BOOK", bookTotalCountRowMapper());
         return totalCount.get(0);
     }

@@ -30,7 +30,7 @@ public class PageDTO {
             this.endPage = realEnd;
         }
 
-        this.prev = this.currentPage > 1;
-        this.next = this.currentPage < realEnd;
+        this.prev = this.startPage - 10 >= 1;
+        this.next = this.endPage + 1 <= realEnd;
     }
 }

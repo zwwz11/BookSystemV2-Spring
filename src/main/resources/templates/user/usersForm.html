@@ -35,6 +35,25 @@
                 </tbody>
             </table>
         </div>
+        <nav class="text-center">
+            <ul class="pagination">
+                <li th:class="${!page.prev} ? 'disabled'" th:with="prevAddr=@{/book/books(currentPage=${page.startPage} - 10)}">
+                    <a th:href="${page.prev} ? ${prevAddr}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(page.startPage, page.endPage)}" th:class="${i == page.currentPage} ? 'active'">
+                    <a th:href="@{/book/books(currentPage=${i})}" th:text="${i}"></a>
+                </li>
+                <li th:class="${!page.next} ? 'disabled'" th:with="nextAddr=@{/book/books(currentPage=${page.endPage} + 1)}">
+                    <a th:href="${page.next} ? ${nextAddr}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </body>
 </html>

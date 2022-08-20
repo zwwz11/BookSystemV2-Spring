@@ -11,5 +11,6 @@ public interface UserRepository {
     User save(User user);
     void update(String id, User updatedUser);
     void remove(String id);
+    int getUsersTotalCount();
 
 }

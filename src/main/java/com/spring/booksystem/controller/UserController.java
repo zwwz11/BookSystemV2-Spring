@@ -1,6 +1,8 @@
 package com.spring.booksystem.controller;
 
 import com.spring.booksystem.domain.user.*;
+import com.spring.booksystem.page.PageDTO;
+import com.spring.booksystem.page.PageParam;
 import com.spring.booksystem.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +64,15 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String users(Model model) {
+    public String users(Model model, @RequestParam(defaultValue = "1") int currentPage) {
+        PageParam pageParam = new PageParam();
+        pageParam.setPage(currentPage);
+
+        int totalCount = userService.getUsersTotalCount();
+        PageDTO pageDTO = new PageDTO(pageParam, totalCount);
+
         model.addAttribute("users", userService.findAllUser());
+        model.addAttribute("page", pageDTO);
         return "/user/usersForm";
     }
 

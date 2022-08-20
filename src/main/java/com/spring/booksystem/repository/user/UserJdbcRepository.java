@@ -5,17 +5,15 @@ import com.spring.booksystem.domain.user.UserAuth;
 import com.spring.booksystem.domain.user.UserSex;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.servlet.tags.EditorAwareTag;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +85,12 @@ public class UserJdbcRepository implements UserRepository{
         jdbcTemplate.update("DELETE FROM TB_COM_USER WHERE USER_ID = ?", id);
     }
 
+    @Override
+    public int getUsersTotalCount() {
+        List<Integer> totalCount = jdbcTemplate.query("SELECT COUNT(USER_ID) AS TOTAL FROM TB_COM_USER", bookTotalCountRowMapper());
+        return totalCount.get(0);
+    }
+
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> {
             User user = new User();
@@ -99,6 +103,24 @@ public class UserJdbcRepository implements UserRepository{
             user.setEmail(rs.getString("EMAIL"));
             user.setSex(UserSex.valueOf(rs.getString("SEX_COM_CD")));
             return user;
+        };
+    }
+
+    private RowMapper<Integer> bookTotalCountRowMapper() {
+
+        return (rs, rowNum) -> {
+            return rs.getInt("TOTAL");
+        };
+    }
+
+    // 람다 사용전 문법
+    private RowMapper<Integer> test() {
+        return new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int totalCount = rs.getInt("TOTAL");
+                return totalCount;
+            }
         };
     }
 }

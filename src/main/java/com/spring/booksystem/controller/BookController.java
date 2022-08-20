@@ -112,7 +112,7 @@ public class BookController {
         PageParam pageParam = new PageParam();
         pageParam.setPage(currentPage);
 
-        int totalCount = bookService.getTotalCount();
+        int totalCount = bookService.getBooksTotalCount();
         PageDTO pageDTO = new PageDTO(pageParam, totalCount);
 
         model.addAttribute("books", bookService.findAllBook(pageParam));

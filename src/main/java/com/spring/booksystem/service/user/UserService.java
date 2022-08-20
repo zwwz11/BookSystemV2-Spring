@@ -10,4 +10,5 @@ public interface UserService {
     User join(User user);
     void editUser(String id, User user);
     void deleteUser(String id);
+    int getUsersTotalCount();
 }
