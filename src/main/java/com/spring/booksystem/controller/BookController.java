@@ -108,15 +108,19 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public String books(Model model, @RequestParam(defaultValue = "1") int currentPage) {
+    public String books(Model model
+            , @RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(defaultValue = "", name = "title") String title) {
+
         PageParam pageParam = new PageParam();
         pageParam.setPage(currentPage);
 
-        int totalCount = bookService.getBooksTotalCount();
+        int totalCount = bookService.getBooksTotalCount(title);
         PageDTO pageDTO = new PageDTO(pageParam, totalCount);
 
-        model.addAttribute("books", bookService.findAllBook(pageParam));
+        model.addAttribute("books", bookService.findAllBook(pageParam, title));
         model.addAttribute("page", pageDTO);
+        model.addAttribute("title", title);
         return "/book/booksForm";
     }
 

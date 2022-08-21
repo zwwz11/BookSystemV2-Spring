@@ -67,18 +67,21 @@ public class BookJdbcRepository implements BookRepository{
     }
 
     @Override
-    public int getBooksTotalCount() {
-        List<Integer> totalCount = jdbcTemplate.query("SELECT COUNT(BOOK_ID) AS TOTAL FROM TB_COM_BOOK", bookTotalCountRowMapper());
+    public int getBooksTotalCount(String title) {
+        List<Integer> totalCount = jdbcTemplate.query("SELECT COUNT(BOOK_ID) AS TOTAL " +
+                                                          "FROM TB_COM_BOOK " +
+                                                          "WHERE TITLE LIKE '%" + title + "%'", bookTotalCountRowMapper());
         return totalCount.get(0);
     }
 
     @Override
-    public List<Book> findAll(PageParam pageParam) {
+    public List<Book> findAll(PageParam pageParam, String title){
         int startPage = pageParam.getStart();
         int amount = pageParam.getAmount();
 
         List<Book> findBooks = jdbcTemplate.query("SELECT * " +
                                                       "FROM TB_COM_BOOK " +
+                                                      "WHERE TITLE LIKE '%" + title + "%'" +
                                                       "LIMIT " + startPage + ", " + amount
                                                       , bookRowMapper());
         return findBooks;

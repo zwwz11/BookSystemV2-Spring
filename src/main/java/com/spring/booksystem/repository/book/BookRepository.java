@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface BookRepository {
     Book findById(Long id);
-    List<Book> findAll(PageParam pageParam);
+    List<Book> findAll(PageParam pageParam, String title);
     List<Book> findRentListByUser(String userId);
     Book save(Book book);
     void update(Long id, Book updatedBook);
     void remove(Long id);
     void rentBook(Long bookId, String userId);
     void returnBook(Long bookId);
-    int getBooksTotalCount();
+    int getBooksTotalCount(String title);
 }

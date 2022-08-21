@@ -33,8 +33,8 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<Book> findAllBook(PageParam pageParam) {
-        return bookRepository.findAll(pageParam);
+    public List<Book> findAllBook(PageParam pageParam, String title) {
+        return bookRepository.findAll(pageParam, title);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public int getBooksTotalCount() {
-        return bookRepository.getBooksTotalCount();
+    public int getBooksTotalCount(String title) {
+        return bookRepository.getBooksTotalCount(title);
     }
 }
